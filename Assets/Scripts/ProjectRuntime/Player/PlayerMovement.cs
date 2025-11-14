@@ -15,6 +15,12 @@ namespace ProjectRuntime.Player
         [field: SerializeField]
         private float JumpHeight { get; set; }
 
+        [field: SerializeField]
+        private float Gravity { get; set; }
+
+        [field: SerializeField]
+        private float CoyoteTime { get; set; }
+
         [field: SerializeField, Header("Camera Settings")]
         private CinemachineVirtualCamera PlayerCamera { get; set; }
 
@@ -29,7 +35,7 @@ namespace ProjectRuntime.Player
         private Vector2 _currentMovementInput;
         private Vector3 _currentMovement;
         private bool _isGrounded;
-        private float _gravity = -9.81f;
+        private float _coyoteTimer;
 
         private float _xRotation;
 
@@ -49,6 +55,14 @@ namespace ProjectRuntime.Player
         private void Update()
         {
             this._isGrounded = this.CharacterController.isGrounded;
+            if (this._isGrounded)
+            {
+                this._coyoteTimer = this.CoyoteTime;
+            }
+            else
+            {
+                this._coyoteTimer -= Time.deltaTime;
+            }
 
             this.ProcessMove();
         }
@@ -77,20 +91,19 @@ namespace ProjectRuntime.Player
 
         private void ProcessMove()
         {
-            this.CharacterController.Move(this.MovementSpeed * Time.deltaTime * this.transform.TransformDirection(this._currentMovement));
-            this._currentMovement.y += this._gravity * Time.deltaTime;
+            this._currentMovement.y += this.Gravity * Time.deltaTime;
             if (this._isGrounded && this._currentMovement.y < 0f)
             {
-                this._currentMovement.y = -2f;
+                this._currentMovement.y = 0f;
             }
-            this.CharacterController.Move(this._currentMovement * Time.deltaTime);
+            this.CharacterController.Move(this.MovementSpeed * Time.deltaTime * this.transform.TransformDirection(this._currentMovement));
         }
 
         private void OnJump(InputAction.CallbackContext _)
         {
-            if (this._isGrounded)
+            if (this._isGrounded || this._coyoteTimer > 0f)
             {
-                this._currentMovement.y = Mathf.Sqrt(this.JumpHeight * -3f * this._gravity);
+                this._currentMovement.y = Mathf.Sqrt(this.JumpHeight * -3f * this.Gravity);
             }
         }
 
