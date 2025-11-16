@@ -92,9 +92,9 @@ namespace ProjectRuntime.Player
         private void ProcessMove()
         {
             this._currentMovement.y += this.Gravity * Time.deltaTime;
-            if (this._isGrounded && this._currentMovement.y < 0f)
+            if ((this._isGrounded || this._coyoteTimer > 0f) && this._currentMovement.y < 0f)
             {
-                this._currentMovement.y = 0f;
+                this._currentMovement.y = -0.1f;
             }
             this.CharacterController.Move(this.MovementSpeed * Time.deltaTime * this.transform.TransformDirection(this._currentMovement));
         }

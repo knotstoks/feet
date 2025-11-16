@@ -150,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 6760795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50, y: 10, z: 90}
+  m_LocalPosition: {x: -80, y: 10, z: 80}
   m_LocalScale: {x: 80, y: 20, z: 80}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -519,8 +519,8 @@ Transform:
   m_GameObject: {fileID: 662535386}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 60, y: 2.5, z: 60}
-  m_LocalScale: {x: 20, y: 40, z: 20}
+  m_LocalPosition: {x: 10, y: 15, z: 40}
+  m_LocalScale: {x: 40, y: 30, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1909561901}
@@ -718,7 +718,7 @@ Transform:
   m_GameObject: {fileID: 804180062}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50, y: 5, z: 0}
+  m_LocalPosition: {x: -70, y: 5, z: -10}
   m_LocalScale: {x: 50, y: 10, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1009,8 +1009,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3, y: 10.57, z: -37.8}
+  m_LocalRotation: {x: 0, y: 0.3891481, z: 0, w: 0.92117524}
+  m_LocalPosition: {x: -138.8, y: 10.57, z: -23.9}
   m_LocalScale: {x: 2, y: 2.993353, z: 2.0066476}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1551,15 +1551,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591219863}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3, y: 8.17, z: -37.8}
+  m_LocalRotation: {x: -0, y: 0.3891481, z: -0, w: 0.92117524}
+  m_LocalPosition: {x: -138.8, y: 8.17, z: -23.9}
   m_LocalScale: {x: 2, y: 3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1203228834}
   - {fileID: 1390142026}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45.803, z: 0}
 --- !u!143 &1591219870
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1600,12 +1600,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CharacterController>k__BackingField: {fileID: 1591219870}
   <MovementSpeed>k__BackingField: 50
-  <JumpHeight>k__BackingField: 0.4
+  <JumpHeight>k__BackingField: 0.3
   <Gravity>k__BackingField: -4
-  <CoyoteTime>k__BackingField: 0.02
+  <CoyoteTime>k__BackingField: 0.1
   <PlayerCamera>k__BackingField: {fileID: 1696516590}
-  <HorizontalSensitivity>k__BackingField: 50
-  <VerticalSensitivity>k__BackingField: 40
+  <HorizontalSensitivity>k__BackingField: 10
+  <VerticalSensitivity>k__BackingField: 10
 --- !u!1001 &1686662105
 PrefabInstance:
   m_ObjectHideFlags: 0
