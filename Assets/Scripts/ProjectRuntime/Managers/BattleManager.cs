@@ -1,5 +1,9 @@
 using System;
+using BroccoliBunnyStudios.Managers;
+using BroccoliBunnyStudios.Panel;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using ProjectRuntime.Player;
 using UnityEngine;
 
 namespace ProjectRuntime.Managers
@@ -23,6 +27,8 @@ namespace ProjectRuntime.Managers
             {
                 Debug.LogError("There are 2 or more BattleManagers in the scene");
             }
+
+            PanelManager.Instance.FadeToBlackAsync(0f).Forget(); //temp for now
         }
 
         private void Start()
@@ -30,19 +36,31 @@ namespace ProjectRuntime.Managers
             this.Init().Forget();
         }
 
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
+
         public async UniTaskVoid Init()
         {
             // Spawn in the map and set it up
 
+            await UniTask.WaitUntil(() => LevelManager.Instance != null);
+
             // Teleport the player to the spawn position
+            PlayerMovement.Instance.transform.position = LevelManager.Instance.PlayerSpawnTransform.position;
 
             // Scene transition open and start the timer
+            await PanelManager.Instance.FadeFromBlack();
+            if (!this) return;
+
+            PlayerMovement.Instance.TogglePlayerMovement(true);
         }
 
         public void CompleteLevel()
         {
-            // Pause Game
-
+            // TODO: Open PnlPostGame
+            SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
         }
 
         #region Pause Logic

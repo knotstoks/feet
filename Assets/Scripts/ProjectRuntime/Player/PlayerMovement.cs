@@ -6,6 +6,8 @@ namespace ProjectRuntime.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        public static PlayerMovement Instance { get; private set; }
+
         [field: SerializeField, Header("Scene References")]
         private CharacterController CharacterController { get; set; }
 
@@ -41,6 +43,15 @@ namespace ProjectRuntime.Player
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Debug.LogError("There are 2 or more PlayerMovements in the scene");
+            }
+
             this._playerInput = new PlayerInput();
 
             this._playerInput.CharacterControls.Move.started += context => this.OnMovementInput(context);
@@ -50,6 +61,11 @@ namespace ProjectRuntime.Player
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+
+        private void OnDestroy()
+        {
+            Instance = null;
         }
 
         private void Update()
@@ -72,14 +88,16 @@ namespace ProjectRuntime.Player
             this.OnLook(this._playerInput.CharacterControls.Look.ReadValue<Vector2>());
         }
 
-        private void OnEnable()
+        public void TogglePlayerMovement(bool toggle)
         {
-            this._playerInput.CharacterControls.Enable();
-        }
-
-        private void OnDisable()
-        {
-            this._playerInput.CharacterControls.Disable();
+            if (toggle)
+            {
+                this._playerInput.CharacterControls.Enable();
+            }
+            else
+            {
+                this._playerInput.CharacterControls.Disable();
+            }
         }
 
         private void OnMovementInput(InputAction.CallbackContext context)
