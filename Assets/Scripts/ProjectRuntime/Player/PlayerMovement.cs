@@ -6,8 +6,6 @@ namespace ProjectRuntime.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public static PlayerMovement Instance { get; private set; }
-
         [field: SerializeField, Header("Scene References")]
         private CharacterController CharacterController { get; set; }
 
@@ -39,23 +37,6 @@ namespace ProjectRuntime.Player
         private float _coyoteTimer;
 
         private float _xRotation;
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Debug.LogError("There are 2 or more PlayerMovements in the scene");
-            }
-        }
-
-        private void OnDestroy()
-        {
-            Instance = null;
-        }
 
         public void Init(PlayerInput playerInput)
         {

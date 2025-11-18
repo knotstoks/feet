@@ -10,6 +10,12 @@ public class PlayerInputManager : MonoBehaviour
 
     public PlayerInput PlayerInput { get; private set; }
 
+    [field: SerializeField, Header("Scene References")]
+    private PlayerMovement PlayerMovement { get; set; }
+
+    [field: SerializeField]
+    private PlayerWeaponManager PlayerWeaponManager { get; set; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -34,14 +40,13 @@ public class PlayerInputManager : MonoBehaviour
         Instance = null;
     }
 
-    private async void Init()
+    private void Init()
     {
         // Init the Player Weapon System
+        this.PlayerWeaponManager.Init(this.PlayerInput);
 
         // Init the Player Movement
-        await UniTask.WaitUntil(() => PlayerMovement.Instance != null);
-        if (!this) return;
-        PlayerMovement.Instance.Init(this.PlayerInput);
+        this.PlayerMovement.Init(this.PlayerInput);
 
     }
 

@@ -113,6 +113,7 @@ public class DWorld : ScriptableObject, IDataImport
                 BronzeTime = CommonUtil.ConvertToSingle(paramList[6]),
                 SilverTime = CommonUtil.ConvertToSingle(paramList[7]),
                 GoldTime = CommonUtil.ConvertToSingle(paramList[8]),
+                StartRotation = paramList[9],
             };
             s_loadedData.Data.Add(worldData);
         }
@@ -148,4 +149,7 @@ public struct WorldData
 
     [field: SerializeField]
     public float GoldTime { get; set; }
+
+    [field: SerializeField]
+    public string StartRotation { get; set; }
 }
