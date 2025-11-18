@@ -43,7 +43,7 @@ namespace ProjectRuntime.Managers
             if (this.WillSkipStageSetup)
             {
                 PanelManager.Instance.FadeFromBlack(0f).Forget();
-                PlayerMovement.Instance.TogglePlayerMovement(true);
+                PlayerInputManager.Instance.TogglePlayerInput(true);
             }
             else
             {
@@ -69,13 +69,15 @@ namespace ProjectRuntime.Managers
             await UniTask.WaitUntil(() => LevelManager.Instance != null);
 
             // Teleport the player to the spawn position
+            await UniTask.WaitUntil(() => PlayerMovement.Instance != null);
             PlayerMovement.Instance.transform.position = LevelManager.Instance.PlayerSpawnTransform.position;
 
             // Scene transition open and start the timer
             await PanelManager.Instance.FadeFromBlack();
             if (!this) return;
 
-            PlayerMovement.Instance.TogglePlayerMovement(true);
+            await UniTask.WaitUntil(() => PlayerInputManager.Instance != null);
+            PlayerInputManager.Instance.TogglePlayerInput(true);
         }
 
         public void CompleteLevel()

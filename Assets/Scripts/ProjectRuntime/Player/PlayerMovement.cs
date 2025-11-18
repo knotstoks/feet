@@ -33,7 +33,6 @@ namespace ProjectRuntime.Player
         private float VerticalSensitivity { get; set; }
 
         private PlayerInput _playerInput;
-
         private Vector2 _currentMovementInput;
         private Vector3 _currentMovement;
         private bool _isGrounded;
@@ -51,21 +50,21 @@ namespace ProjectRuntime.Player
             {
                 Debug.LogError("There are 2 or more PlayerMovements in the scene");
             }
-
-            this._playerInput = new PlayerInput();
-
-            this._playerInput.CharacterControls.Move.started += context => this.OnMovementInput(context);
-            this._playerInput.CharacterControls.Move.canceled += context => this.OnMovementInput(context);
-            this._playerInput.CharacterControls.Move.performed += context => this.OnMovementInput(context);
-            this._playerInput.CharacterControls.Jump.performed += context => this.OnJump(context);
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
 
         private void OnDestroy()
         {
             Instance = null;
+        }
+
+        public void Init(PlayerInput playerInput)
+        {
+            this._playerInput = playerInput;
+
+            this._playerInput.CharacterControls.Move.started += context => this.OnMovementInput(context);
+            this._playerInput.CharacterControls.Move.canceled += context => this.OnMovementInput(context);
+            this._playerInput.CharacterControls.Move.performed += context => this.OnMovementInput(context);
+            this._playerInput.CharacterControls.Jump.performed += context => this.OnJump(context);
         }
 
         private void Update()
@@ -86,18 +85,6 @@ namespace ProjectRuntime.Player
         private void LateUpdate()
         {
             this.OnLook(this._playerInput.CharacterControls.Look.ReadValue<Vector2>());
-        }
-
-        public void TogglePlayerMovement(bool toggle)
-        {
-            if (toggle)
-            {
-                this._playerInput.CharacterControls.Enable();
-            }
-            else
-            {
-                this._playerInput.CharacterControls.Disable();
-            }
         }
 
         private void OnMovementInput(InputAction.CallbackContext context)
