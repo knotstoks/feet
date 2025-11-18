@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using BroccoliBunnyStudios.Pools;
 using BroccoliBunnyStudios.Utils;
@@ -10,7 +9,7 @@ using UnityEngine;
 public class DWorld : ScriptableObject, IDataImport
 {
     private static DWorld s_loadedData;
-    private static Dictionary<int, WorldData> s_cachedDataDict;
+    private static Dictionary<string, WorldData> s_cachedDataDict;
 
     [field: SerializeField]
     public List<WorldData> Data { get; private set; }
@@ -24,22 +23,22 @@ public class DWorld : ScriptableObject, IDataImport
 
             // Calculate and cache some results
             s_cachedDataDict = new();
-            foreach (var puzzleData in s_loadedData.Data)
+            foreach (var worldData in s_loadedData.Data)
             {
 #if UNITY_EDITOR
-                if (s_cachedDataDict.ContainsKey(puzzleData.Id))
+                if (s_cachedDataDict.ContainsKey(worldData.WorldId))
                 {
-                    Debug.LogError($"Duplicate Id {puzzleData.Id}");
+                    Debug.LogError($"Duplicate Id {worldData.WorldId}");
                 }
 #endif
-                s_cachedDataDict[puzzleData.Id] = puzzleData;
+                s_cachedDataDict[worldData.WorldId] = worldData;
             }
         }
 
         return s_loadedData;
     }
 
-    public static WorldData? GetDataById(int id)
+    public static WorldData? GetDataById(string id)
     {
         if (s_cachedDataDict == null)
         {
@@ -104,12 +103,18 @@ public class DWorld : ScriptableObject, IDataImport
             }
 
             // New item
-            var puzzleData = new WorldData
+            var worldData = new WorldData
             {
-                Id = CommonUtil.ConvertToInt32(paramList[1]),
-                Panels = paramList[2].Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                WorldId = paramList[1],
+                WorldName = paramList[2],
+                RealmNumber = CommonUtil.ConvertToInt32(paramList[3]),
+                StageNumber = CommonUtil.ConvertToInt32(paramList[4]),
+                PrefabName = paramList[5],
+                BronzeTime = CommonUtil.ConvertToSingle(paramList[6]),
+                SilverTime = CommonUtil.ConvertToSingle(paramList[7]),
+                GoldTime = CommonUtil.ConvertToSingle(paramList[8]),
             };
-            s_loadedData.Data.Add(puzzleData);
+            s_loadedData.Data.Add(worldData);
         }
 
         CommonUtil.SaveScriptableObject(s_loadedData);
@@ -121,8 +126,26 @@ public class DWorld : ScriptableObject, IDataImport
 public struct WorldData
 {
     [field: SerializeField]
-    public int Id { get; set; }
+    public string WorldId { get; set; }
 
     [field: SerializeField]
-    public List<string> Panels { get; set; }
+    public string WorldName{ get; set; }
+
+    [field: SerializeField]
+    public int RealmNumber { get; set; }
+
+    [field: SerializeField]
+    public int StageNumber { get; set; }
+
+    [field: SerializeField]
+    public string PrefabName { get; set; }
+
+    [field: SerializeField]
+    public float BronzeTime { get; set; }
+
+    [field: SerializeField]
+    public float SilverTime { get; set; }
+
+    [field: SerializeField]
+    public float GoldTime { get; set; }
 }

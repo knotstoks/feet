@@ -1,6 +1,7 @@
 using System;
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
+using BroccoliBunnyStudios.Pools;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Player;
@@ -12,7 +13,13 @@ namespace ProjectRuntime.Managers
     {
         public static BattleManager Instance { get; private set; }
 
-        public static string StageIdToLoad = string.Empty; // Set outside the gameplay stage 
+        [field: SerializeField, Header("Cheats")]
+        private bool WillSkipStageSetup { get; set; }
+
+        [field: SerializeField]
+        private string EditorIdToLoad { get; set; }
+
+        public static string WorldIdToLoad = string.Empty; // Set outside the gameplay stage 
 
         public bool IsPaused => this._pauseType != PauseType.None;
         private PauseType _pauseType;
@@ -33,7 +40,15 @@ namespace ProjectRuntime.Managers
 
         private void Start()
         {
-            this.Init().Forget();
+            if (this.WillSkipStageSetup)
+            {
+                PanelManager.Instance.FadeFromBlack(0f).Forget();
+                PlayerMovement.Instance.TogglePlayerMovement(true);
+            }
+            else
+            {
+                this.Init().Forget();
+            }
         }
 
         private void OnDestroy()
@@ -44,6 +59,12 @@ namespace ProjectRuntime.Managers
         public async UniTaskVoid Init()
         {
             // Spawn in the map and set it up
+            if (string.IsNullOrEmpty(WorldIdToLoad))
+            {
+                WorldIdToLoad = EditorIdToLoad;
+            }
+            var dWorld = DWorld.GetDataById(WorldIdToLoad).Value;
+            var worldPrefab = ResourceLoader.InstantiateAsync(dWorld.PrefabName);
 
             await UniTask.WaitUntil(() => LevelManager.Instance != null);
 
