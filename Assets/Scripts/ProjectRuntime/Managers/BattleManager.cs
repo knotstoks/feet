@@ -72,16 +72,14 @@ namespace ProjectRuntime.Managers
             // Teleport the player to the spawn position
             await UniTask.WaitUntil(() => PlayerInputManager.Instance != null);
             var pim = PlayerInputManager.Instance;
-            pim.transform.position = LevelManager.Instance.PlayerSpawnTransform.position;
+            pim.Teleport(LevelManager.Instance.PlayerSpawnTransform.position);
             var rotationSplit = dWorld.StartRotation.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
             pim.transform.localRotation = Quaternion.Euler(CommonUtil.ConvertToSingle(rotationSplit[0]), CommonUtil.ConvertToSingle(rotationSplit[1]), CommonUtil.ConvertToSingle(rotationSplit[2]));
 
             // Scene transition open and start the timer
             await PanelManager.Instance.FadeFromBlack();
             if (!this) return;
 
-            await UniTask.WaitUntil(() => PlayerInputManager.Instance != null);
             PlayerInputManager.Instance.TogglePlayerInput(true);
         }
 

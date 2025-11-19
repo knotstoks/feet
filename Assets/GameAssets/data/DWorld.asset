@@ -21,6 +21,7 @@ MonoBehaviour:
     <BronzeTime>k__BackingField: 16
     <SilverTime>k__BackingField: 13
     <GoldTime>k__BackingField: 10
+    <StartRotation>k__BackingField: 0,45,0
   - <WorldId>k__BackingField: LEVEL_1_2
     <WorldName>k__BackingField: Show me your moves!
     <RealmNumber>k__BackingField: 1
@@ -29,3 +30,4 @@ MonoBehaviour:
     <BronzeTime>k__BackingField: 24
     <SilverTime>k__BackingField: 20
     <GoldTime>k__BackingField: 16
+    <StartRotation>k__BackingField: 

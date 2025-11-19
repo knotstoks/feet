@@ -50,6 +50,11 @@ public class PlayerInputManager : MonoBehaviour
 
     }
 
+    public void Teleport(Vector3 position)
+    {
+        this.PlayerMovement.Teleport(position);
+    }
+
     public void TogglePlayerInput(bool toggle)
     {
         if (toggle)

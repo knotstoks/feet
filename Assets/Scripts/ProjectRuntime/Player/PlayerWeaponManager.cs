@@ -1,3 +1,4 @@
+using ProjectRuntime.Gameplay;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -53,7 +54,11 @@ public class PlayerWeaponManager : MonoBehaviour
         {
             foreach (var collider in cast)
             {
-                Debug.Log(collider.gameObject.name);
+                var destructable = collider.gameObject.GetComponentInParent<Destructable>();
+                if (destructable)
+                {
+                    destructable.OnBreak(this.transform.rotation.eulerAngles);
+                }
             }
         }
 

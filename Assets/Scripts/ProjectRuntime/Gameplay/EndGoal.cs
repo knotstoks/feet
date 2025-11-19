@@ -1,16 +1,16 @@
 using ProjectRuntime.Managers;
-using ProjectRuntime.Player;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EndGoal : MonoBehaviour
+namespace ProjectRuntime.Gameplay
 {
-    private void OnTriggerEnter(Collider other)
+    public class EndGoal : MonoBehaviour
     {
-        if (other.gameObject.CompareTag("Player"))
+        private void OnTriggerEnter(Collider other)
         {
-            BattleManager.Instance.CompleteLevel();
+            if (other.gameObject.CompareTag("Player"))
+            {
+                BattleManager.Instance.CompleteLevel();
+            }
         }
     }
 }

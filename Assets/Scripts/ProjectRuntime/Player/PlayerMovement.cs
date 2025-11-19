@@ -63,6 +63,13 @@ namespace ProjectRuntime.Player
             this.ProcessMove();
         }
 
+        public void Teleport(Vector3 position)
+        {
+            this.CharacterController.enabled = false;
+            this.transform.position = position;
+            this.CharacterController.enabled = true;
+        }
+
         private void LateUpdate()
         {
             this.OnLook(this._playerInput.CharacterControls.Look.ReadValue<Vector2>());
